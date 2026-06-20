@@ -12,6 +12,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/sekickivuk-hue/nz-open-emr/internal/api"
 	"github.com/sekickivuk-hue/nz-open-emr/internal/audit"
 	"github.com/sekickivuk-hue/nz-open-emr/internal/db"
@@ -34,6 +35,11 @@ func main() {
 }
 
 func run(log *slog.Logger) error {
+	err := godotenv.Load()
+	if err != nil {
+		return errors.New("Error loading .env file")
+	}
+
 	url := os.Getenv("DATABASE_URL")
 	if url == "" {
 		return errors.New("DATABASE_URL is required")
